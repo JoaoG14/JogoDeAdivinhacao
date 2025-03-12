@@ -4,7 +4,7 @@
     {
         static void Main(string[] args)
         {
-            while(true)
+            while (true)
             {
                 Console.Clear();
                 Console.WriteLine("---------------------------------");
@@ -15,71 +15,68 @@
                 Console.WriteLine("1 - Fácil   (10 tentativas)");
                 Console.WriteLine("2 - Médio   (5 tentativas)");
                 Console.WriteLine("3 - Difícil (3 tentativas)");
+                Console.Write("Digite o número do nível de dificuldade: ");
 
-                Console.WriteLine("Digite o número do nível de dificuldade: ");
-                int nivelDificuldade = Convert.ToInt32(Console.ReadLine());
-
-                int totalDeTenativas = 0;
-
-                Random geradorNumeros= new Random();
-                int numeroSecreto = geradorNumeros.Next(1, 21);
-
-                if (nivelDificuldade == 1)
+                if (!int.TryParse(Console.ReadLine(), out int nivelDificuldade))
                 {
-                    totalDeTenativas = 11;
-                }
-                else if (nivelDificuldade == 2)
-                {
-                    totalDeTenativas = 6;
-                }
-                else if (nivelDificuldade == 3)
-                {
-                    totalDeTenativas = 4;
-                }
-                else
-                {
-                    Console.WriteLine("Opção inválida! Tente novamente.");
+                    Console.WriteLine("Entrada inválida! Pressione qualquer tecla para tentar novamente...");
+                    Console.ReadKey();
                     continue;
                 }
 
-                for (int tentativa = 1; tentativa < totalDeTenativas; tentativa++)
-                {    
+                int totalDeTentativas;
+                Random geradorNumeros = new Random();
+                int numeroSecreto = geradorNumeros.Next(1, 21);
 
-                    Console.WriteLine("Tentativa " + tentativa + " de " + totalDeTenativas);
-                    Console.WriteLine("Digite um número: ");
-                    int numeroDigitado = Convert.ToInt32(Console.ReadLine());
+                switch (nivelDificuldade)
+                {
+                    case 1: totalDeTentativas = 10; break;
+                    case 2: totalDeTentativas = 5; break;
+                    case 3: totalDeTentativas = 3; break;
+                    default:
+                        Console.WriteLine("Opção inválida! Pressione qualquer tecla para tentar novamente...");
+                        Console.ReadKey();
+                        continue;
+                }
 
-                    Console.WriteLine("O numero digitado foi: " + numeroDigitado);
-                    Console.WriteLine("O numero secreto foi: " + numeroSecreto);
+                for (int tentativa = 1; tentativa <= totalDeTentativas; tentativa++)
+                {
+                    Console.Clear();
+                    Console.WriteLine($"Tentativa {tentativa} de {totalDeTentativas}");
+                    Console.Write("Digite um número: ");
+
+                    if (!int.TryParse(Console.ReadLine(), out int numeroDigitado))
+                    {
+                        Console.WriteLine("Entrada inválida! Pressione qualquer tecla para tentar novamente...");
+                        Console.ReadKey();
+                        continue;
+                    }
+
+                    Console.WriteLine($"O número digitado foi: {numeroDigitado}");
 
                     if (numeroDigitado == numeroSecreto)
                     {
                         Console.WriteLine("Parabéns! Você acertou!");
                         break;
                     }
-                    else if (tentativa > totalDeTenativas)
-                    {
-                        Console.WriteLine("Você perdeu! O número secreto era: " + numeroSecreto);
-                        break;
-                    }
                     else if (numeroDigitado > numeroSecreto)
                     {
                         Console.WriteLine("Que pena! Você errou! O número secreto é menor.");
                     }
-                    else if (numeroDigitado < numeroSecreto)
+                    else
                     {
                         Console.WriteLine("Que pena! Você errou! O número secreto é maior.");
                     }
-                    else
-                    {
-                        Console.WriteLine("Que pena! Você errou!");
-                    }
+
+                    Console.WriteLine("Pressione qualquer tecla para continuar...");
+                    Console.ReadKey();
                 }
 
-                Console.WriteLine("Deseja continaur? (S/N): ");
+                Console.WriteLine($"O número secreto era: {numeroSecreto}");
+                Console.Write("Deseja continuar? (S/N): ");
                 string opcaoContinuar = Console.ReadLine().ToUpper();
 
-                if(opcaoContinuar == "N")
+                if (opcaoContinuar == "N")
                 {
                     break;
                 }
